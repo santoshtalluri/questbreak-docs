@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuestBreak Plan v2.0</title>
+<meta name="description" content="The full QuestBreak system specification: quest framing, progression economy, Flow Meter, Discovery Codex, Constellation Trials, ethics guardrails, architecture, and phasing.">
+<meta property="og:title" content="QuestBreak Plan v2.0">
+<meta property="og:description" content="The full system specification — every game system, its rules, and the academic guarantees it may not break.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23A96A12'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
+<link rel="stylesheet" href="/style.css">
+<script>
+  (function(){try{var t=localStorage.getItem('qb-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+</head>
+<body>
+
+<header class="sitebar">
+  <a class="brand" href="/"><i></i><span>QuestBreak</span></a>
+  <nav>
+    <a href="/">Overview</a>
+    <a href="/prd.html">PRD</a>
+    <a href="/plan.html" aria-current="page">Plan v2.0</a>
+    <button class="tog" id="tog" type="button" aria-label="Toggle colour theme">Theme</button>
+  </nav>
+</header>
+
+<div class="shell">
+
+  <aside class="rail">
+    <div class="rail-mark">
+      <b>Plan v2.0</b>
+      Student Branch
+    </div>
+    <nav id="toc" aria-label="Sections">
+      <a href="#s0"><i class="star"></i><span class="n">§0</span><span class="lbl">What v2.0 Changes</span></a>
+      <a href="#s1"><i class="star"></i><span class="n">§1</span><span class="lbl">Design Principles</span></a>
+      <a href="#s2"><i class="star"></i><span class="n">§2</span><span class="lbl">Quest Framing</span></a>
+      <a href="#s3"><i class="star"></i><span class="n">§3</span><span class="lbl">Progression Economy</span></a>
+      <a href="#s4"><i class="star"></i><span class="n">§4</span><span class="lbl">Discovery Codex</span></a>
+      <a href="#s5"><i class="star"></i><span class="n">§5</span><span class="lbl">In-Round Game Feel</span></a>
+      <a href="#s6"><i class="star"></i><span class="n">§6</span><span class="lbl">Narrative Layer</span></a>
+      <a href="#s7"><i class="star"></i><span class="n">§7</span><span class="lbl">Social Layer</span></a>
+      <a href="#s8"><i class="star"></i><span class="n">§8</span><span class="lbl">The Hybrid Break</span></a>
+      <a href="#s9"><i class="star"></i><span class="n">§9</span><span class="lbl">Experience Flow</span></a>
+      <a href="#s10"><i class="star"></i><span class="n">§10</span><span class="lbl">Student Dashboard</span></a>
+      <a href="#s11"><i class="star"></i><span class="n">§11</span><span class="lbl">Thresholds &amp; A11y</span></a>
+      <a href="#s12"><i class="star"></i><span class="n">§12</span><span class="lbl">Ethics Guardrails</span></a>
+      <a href="#s13"><i class="star"></i><span class="n">§13</span><span class="lbl">Architecture</span></a>
+      <a href="#s14"><i class="star"></i><span class="n">§14</span><span class="lbl">Implementation</span></a>
+      <a href="#s15"><i class="star"></i><span class="n">§15</span><span class="lbl">Success Metrics</span></a>
+      <a href="#s16"><i class="star"></i><span class="n">§16</span><span class="lbl">Open Questions</span></a>
+    </nav>
+  </aside>
+
+  <main>
+
+    <header class="masthead">
+      <div class="eyebrow">Plan Version 2.0 · Supersedes v1.0</div>
+      <h1>QuestBreak<br><em>Student Branch</em></h1>
+      <p class="deck">A hybrid-reward adaptive learning app for middle schoolers. v2.0 adds a game layer on top of v1.0's academic engine — and changes nothing underneath it.</p>
+      <div class="mast-meta">
+        <span>Section numbering mirrors <b>v1.0</b></span>
+        <span>Academic guarantees <b>non-negotiable</b></span>
+        <span>Why it exists <b><a href="/prd.html">See the PRD</a></b></span>
+      </div>
+    </header>
+
+    <div class="thesis">
+      <span class="note-k">§0.2 — The one-sentence design thesis</span>
+      <p>Learning well should visibly make the fun part better — not merely unlock it.</p>
+    </div>
+
+    <div class="legend">
+      <span class="lk">Section states</span>
+      <span class="tag t-new">New in v2.0</span>
+      <span class="tag t-rev">Revised</span>
+      <span class="tag t-exp">Expanded</span>
+      <span class="tag t-pre">Preserved · non-negotiable</span>
+    </div>
+
+    <!-- ================= 0 ================= -->
+    <section class="sec" id="s0">
+      <div class="sec-head">
+        <span class="sec-num">§0</span>
+        <h2>What v2.0 Changes</h2>
+        <span class="tag t-rev">Overview</span>
+      </div>
+
+      <p>v1.0 was academically sound and motivationally thin. It had exactly one reward (the 5-minute Hybrid Break), one progression signal (the Skill Galaxy), and one habit hook (a streak counter). Nothing structurally connected <em>how well a student learned</em> to <em>how good the reward felt</em>, which means the arcade half read as a bribe rather than a payoff.</p>
+      <p>v2.0 adds a game layer. It does not touch the academic engine.</p>
+
+      <div class="tw"><table>
+        <thead><tr><th style="width:22%">Area</th><th style="width:30%">v1.0</th><th>v2.0</th></tr></thead>
+        <tbody>
+          <tr><td>Round framing</td><td>"20-minute round"</td><td>Named <strong>Quest</strong> with a story objective and a Quest Log</td></tr>
+          <tr><td>Progression</td><td>Skill Galaxy + streak</td><td>Skill Galaxy + <strong>XP, Learner Levels, Sparks currency</strong></td></tr>
+          <tr><td>Enrichment payoff</td><td>Optional bookmarks</td><td><strong>Discovery Cards</strong> in a collectible <strong>Codex</strong> with themed sets</td></tr>
+          <tr><td>In-round feedback</td><td>Accuracy tally</td><td><strong>Flow Meter</strong> combo multiplier + <strong>Power-Up drops</strong></td></tr>
+          <tr><td>Arcade half</td><td>Standalone mini-games</td><td>Mini-games <strong>powered by power-ups earned while learning</strong></td></tr>
+          <tr><td>Skill Galaxy</td><td>Visual graph</td><td>Narrative <strong>star map</strong> with sectors, a companion, and boss <strong>Constellation Trials</strong></td></tr>
+          <tr><td>Social</td><td>None</td><td>Opt-in <strong>Crews</strong>, effort-ranked leaderboards, async <strong>Duels</strong></td></tr>
+          <tr><td>Domain completion</td><td>Nothing special</td><td><strong>Constellation Trial</strong> boss encounter</td></tr>
+          <tr><td>Failure handling</td><td>"Encouragement" screen</td><td>Explicit anti-frustration system with grace days and no loss aversion</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><span class="hn">0.1</span> Preserved v1.0 Guarantees <span class="tag t-pre">Load-bearing</span></h3>
+      <p>These must not be traded away for engagement:</p>
+      <ol class="holds">
+        <li><div><strong>Mastery Before Play.</strong> The Hybrid Break unlocks at the accuracy threshold (default 85%) with a hint cap. No game system may bypass this gate — power-ups, Sparks, level, and Crew standing cannot buy a break.</div></li>
+        <li><div><strong>The theme is the wrapper, never the simplifier.</strong> Academic vocabulary and cognitive demand stay constant across Sports, Gaming, Music, Animals, and Space. This now applies to every new surface too: quest titles, card text, and companion dialogue may be playful, but question stems keep full rigor.</div></li>
+        <li><div><strong>Enrichment is ungraded.</strong> No scores, no penalties, no correctness gating in the Discover phase. Discovery Cards are awarded for <em>participating</em>, never for being right.</div></li>
+        <li><div><strong>Adaptive, not prescriptive.</strong> The Skill Graph still drives sequencing. The narrative map is a <em>rendering</em> of the graph, not a replacement for it — story never dictates which skill comes next.</div></li>
+        <li><div><strong>The 20-minute learn / 5-minute break ratio holds.</strong> The break is still 2.5 minutes arcade + 2.5 minutes enrichment.</div></li>
+      </ol>
+
+      <h3><span class="hn">0.2</span> The Design Thesis</h3>
+      <p>Every system below is judged against the thesis at the top of this page. Power-up carryover (§5.2) is the clearest expression of it and is the mechanic other systems depend on.</p>
+    </section>
+
+    <!-- ================= 1 ================= -->
+    <section class="sec" id="s1">
+      <div class="sec-head">
+        <span class="sec-num">§1</span>
+        <h2>Core Design Principles</h2>
+        <span class="tag t-rev">Revised</span>
+      </div>
+
+      <div class="tw"><table>
+        <thead><tr><th style="width:32%">Principle</th><th>Implementation</th></tr></thead>
+        <tbody>
+          <tr><td>Agency</td><td>Students pick interests and themes; they also name their companion, choose one enrichment slot, and pick their own cosmetics</td></tr>
+          <tr><td>Rigor</td><td>Same standards, different context. A linear equation is a linear equation whether it models a rocket trajectory or a sports stat</td></tr>
+          <tr><td>Mastery Before Play</td><td>Accuracy threshold (default 85%) required to unlock the Hybrid Break</td></tr>
+          <tr><td>Adaptive, Not Prescriptive</td><td>Skill Graph identifies granular competencies, not a single "grade level"</td></tr>
+          <tr><td>Balanced Rewards</td><td>Half arcade (motivation), half enrichment (depth)</td></tr>
+          <tr><td><strong>Earned Advantage</strong> <span class="tag t-new">New</span></td><td>Learning performance converts into concrete arcade advantages, so effort is felt inside the fun</td></tr>
+          <tr><td><strong>Progress Is Never Lost</strong> <span class="tag t-new">New</span></td><td>XP, cards, and levels are monotonic. Streaks have grace days. Nothing is taken away as punishment</td></tr>
+          <tr><td><strong>Compete on Effort, Not Ability</strong> <span class="tag t-new">New</span></td><td>Any social comparison ranks focus, persistence, and curiosity — never raw accuracy</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ================= 2 ================= -->
+    <section class="sec" id="s2">
+      <div class="sec-head">
+        <span class="sec-num">§2</span>
+        <h2>Quest Framing</h2>
+        <span class="tag t-new">New in v2.0</span>
+      </div>
+
+      <h3><span class="hn">2.1</span> From "Round" to "Quest"</h3>
+      <p>A 20-minute round is presented as a <strong>Quest</strong> with a name, a one-line story objective, and a target skill node. The framing is cosmetic to the adaptive engine and material to the student.</p>
+
+      <div class="quest-card">
+        <div class="qh">Objective card · shown before starting</div>
+        <div class="qb">
+          <dl class="qrow"><dt>Quest</dt><dd class="big">Recalibrate the Ratio Array</dd></dl>
+          <dl class="qrow"><dt>Sector</dt><dd>Number Sense · Kepler Station</dd></dl>
+          <dl class="qrow"><dt>Goal</dt><dd>Ratio Reasoning — hold 85% to bring the array online</dd></dl>
+          <div class="vela"><b>Vela</b>"Array's drifting. If we get the ratios right, the whole station comes back on line. No pressure. Some pressure."</div>
+        </div>
+      </div>
+
+      <p>Quest names are generated from a template bank keyed by <code>skill_node_id</code> × <code>theme</code>, so the same Ratio Reasoning quest is "Recalibrate the Ratio Array" for a Space student and "Rebuild the Crafting Line" for a Gaming student.</p>
+
+      <h3><span class="hn">2.2</span> Quest Log</h3>
+      <p>The Quest Log holds <strong>3 dailies + 1 weekly</strong>. Every objective is defined in terms of learning behavior, never time-on-app, so the log cannot be farmed by idling.</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:50%">Daily pool — 3 drawn per day</th><th>Weekly pool — 1 drawn per week</th></tr></thead>
+        <tbody>
+          <tr><td>Complete a quest with 0 hints used</td><td>Resolve 3 repeated-mistake tags</td></tr>
+          <tr><td>Resolve 1 repeated-mistake tag</td><td>Master 2 nodes in the same sector</td></tr>
+          <tr><td>Reach a Flow Meter tier of 5 or higher</td><td>Complete 4 quests</td></tr>
+          <tr><td>Master a new skill node</td><td>Collect 3 Discovery Cards from one set</td></tr>
+          <tr><td>Bookmark a discovery from an unfamiliar theme</td><td>Attempt a Constellation Trial</td></tr>
+          <tr><td>Complete a quest in a theme you have not used this week</td><td></td></tr>
+          <tr><td>Finish the Discover phase without skipping</td><td></td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note ignite">
+        <span class="note-k">Rewards</span>
+        <p>Dailies grant <strong>40–75 XP</strong> and <strong>15–25 Sparks</strong>. The weekly grants <strong>200 XP</strong>, <strong>60 Sparks</strong>, and one guaranteed Uncommon-or-better Discovery Card.</p>
+      </div>
+
+      <h3><span class="hn">2.3</span> Anti-Farming Rules</h3>
+      <ul>
+        <li>Objectives requiring mastery or mistake-resolution are verified against the Skill Graph, not self-reported.</li>
+        <li>A quest counts as "completed" only if the student answered the full question set; abandoning at question 3 does not count.</li>
+        <li>Dailies do not stack across days. Unclaimed dailies expire, but expiry is silent — no "you missed it" messaging (see §10.1).</li>
+      </ul>
+    </section>
+
+    <!-- ================= 3 ================= -->
+    <section class="sec" id="s3">
+      <div class="sec-head">
+        <span class="sec-num">§3</span>
+        <h2>Progression Economy</h2>
+        <span class="tag t-new">New in v2.0</span>
+      </div>
+
+      <h3><span class="hn">3.1</span> XP</h3>
+      <p>XP is awarded per answer and per milestone. The curve deliberately rewards <em>first-try correctness and independence</em> while never punishing hint use into worthlessness, because v1.0 treats hints as a diagnostic signal rather than cheating.</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th>Event</th><th style="width:88px;text-align:right">XP</th></tr></thead>
+        <tbody>
+          <tr><td>Correct, first try, no hint</td><td class="num">10</td></tr>
+          <tr><td>Correct, first try, 1 hint</td><td class="num">6</td></tr>
+          <tr><td>Correct, first try, 2+ hints</td><td class="num">4</td></tr>
+          <tr><td>Correct after an incorrect attempt</td><td class="num">5</td></tr>
+          <tr><td>Incorrect, attempted, reviewed explanation</td><td class="num">2</td></tr>
+          <tr><td>Deliberate-pace bonus</td><td class="num">+3</td></tr>
+          <tr><td>New node reaches Mastered</td><td class="num">+50</td></tr>
+          <tr><td>Repeated-mistake tag resolved</td><td class="num">+40</td></tr>
+          <tr><td>Quest completed</td><td class="num">+75</td></tr>
+          <tr><td>Constellation Trial cleared</td><td class="num">+250</td></tr>
+        </tbody>
+      </table></div>
+
+      <p><strong>Deliberate-pace bonus</strong> pays out when time-on-question falls inside the student's own rolling band (between 60% and 250% of their personal median for that difficulty tier). It is intentionally <em>not</em> a speed bonus: v1.0 §3.1 already flags rushing as a risk signal, so rewarding raw speed would fight the adaptive engine. Answering suspiciously fast earns no bonus even when correct.</p>
+
+      <div class="note">
+        <p>Note that even an incorrect answer earns 2 XP for engaging with the explanation. <strong>Trying and being wrong must never be worth zero.</strong></p>
+      </div>
+
+      <h3><span class="hn">3.2</span> Flow Multiplier Applied to XP</h3>
+      <p>Base XP for answers is multiplied by the current Flow tier (§5.1). Milestone XP (mastery, quest, trial) is never multiplied, so the multiplier cannot dominate the economy.</p>
+
+      <h3><span class="hn">3.3</span> Learner Levels</h3>
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:70px">Level</th><th style="width:150px">Cumulative XP</th><th>Unlock</th></tr></thead>
+        <tbody>
+          <tr><td class="numl">1</td><td class="numl">0</td><td>Interest selection, Nova Runner, Trivia + Real-World enrichment</td></tr>
+          <tr><td class="numl">2</td><td class="numl">150</td><td>Outfitter opens (avatar gear)</td></tr>
+          <tr><td class="numl">3</td><td class="numl">400</td><td>Beat Match arcade; Creative Prompt enrichment</td></tr>
+          <tr><td class="numl">4</td><td class="numl">750</td><td>Crews (opt-in, guardian-gated)</td></tr>
+          <tr><td class="numl">5</td><td class="numl">1,200</td><td>Codex frames; second interest theme slot</td></tr>
+          <tr><td class="numl">6</td><td class="numl">1,800</td><td>Stat Slam arcade; Puzzle/Logic enrichment</td></tr>
+          <tr><td class="numl">7</td><td class="numl">2,550</td><td>Duels (opt-in)</td></tr>
+          <tr><td class="numl">8</td><td class="numl">3,450</td><td>Craft Chain arcade; Maker Moment enrichment</td></tr>
+          <tr><td class="numl">9</td><td class="numl">4,500</td><td>Companion customization (voice + look)</td></tr>
+          <tr><td class="numl">10</td><td class="numl">5,700</td><td>Habitat Rescue arcade; Expedition long-form enrichment</td></tr>
+          <tr><td class="numl">11+</td><td class="numl">+1,500 ea.</td><td>Cosmetic tiers, Codex auras, arcade skins</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>A typical engaged student earns 350–600 XP per session, so early levels arrive roughly every session and later ones every two to three. Content unlocks front-load in the first ten levels; past level 10 rewards are cosmetic only, so a late-joining student is never at a functional disadvantage.</p>
+
+      <h3><span class="hn">3.4</span> Sparks</h3>
+      <p><strong>Sparks</strong> are the soft currency. Earn rate is roughly 1 Spark per 10 XP, plus quest and set bonuses. Sparks are spent in the <strong>Outfitter</strong> on:</p>
+      <ul>
+        <li>Avatar gear (theme-flavored: astronaut helmet, jersey, headphones, ranger kit, crafting cloak)</li>
+        <li>Arcade skins (visual reskins only — never stat changes)</li>
+        <li>Codex frames and card backs</li>
+        <li>Companion accessories</li>
+      </ul>
+
+      <div class="note hold">
+        <span class="note-k">Hard rules</span>
+        <p>Sparks cannot be purchased with money, cannot be gifted or traded (removes coercion between students), cannot buy hints, and cannot buy break access. Everything they buy is cosmetic. Nothing in the Outfitter confers an academic or arcade advantage.</p>
+      </div>
+    </section>
+
+    <!-- ================= 4 ================= -->
+    <section class="sec" id="s4">
+      <div class="sec-head">
+        <span class="sec-num">§4</span>
+        <h2>Discovery Codex</h2>
+        <span class="tag t-new">New — replaces v1.0 bookmarks</span>
+      </div>
+
+      <h3><span class="hn">4.1</span> From Bookmark to Card</h3>
+      <p>v1.0 let students bookmark enrichment discoveries into a library. Nobody returns to a bookmark folder. v2.0 makes each discovery a <strong>Discovery Card</strong> — a collectible object with art, a title, the enrichment content on the back, and a "go deeper" pointer.</p>
+      <p>One card is awarded per completed Discover phase, unconditionally on participation. Ungraded means ungraded: a student who reads the wolf-pack article and answers the reflection question "I don't know yet" still earns the card.</p>
+
+      <h3><span class="hn">4.2</span> Sets</h3>
+      <p>Cards belong to <strong>sets of 8</strong>, one set per theme plus a cross-theme set:</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:34%">Set</th><th style="width:24%">Theme</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Deep Space</strong></td><td>Space</td><td></td></tr>
+          <tr><td><strong>Apex Predators</strong></td><td>Animals</td><td></td></tr>
+          <tr><td><strong>Rhythm &amp; Roots</strong></td><td>Music</td><td></td></tr>
+          <tr><td><strong>Build Order</strong></td><td>Gaming</td><td></td></tr>
+          <tr><td><strong>Margins &amp; Miracles</strong></td><td>Sports</td><td></td></tr>
+          <tr><td><strong>Anomalies</strong></td><td>Cross-theme · rarest</td><td>Awarded for enrichment completed in an unfamiliar theme — the reward hook that fixes theme fatigue</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>Rarities: Common, Uncommon, Rare, Luminous. Each set contains 5 Common/Uncommon, 2 Rare, 1 Luminous. Luminous cards are only obtainable from Constellation Trials and weekly quests, so the last card in a set requires academic progress rather than repetition.</p>
+
+      <h3><span class="hn">4.3</span> Set Completion Rewards</h3>
+      <p>Completing a set grants a <strong>title</strong> (displayed under the avatar), an <strong>avatar aura</strong>, and unlocks an <strong>Expedition</strong> — a multi-chapter long-form enrichment on that theme, consumed 2.5 minutes at a time across future breaks. This gives long-term collectors an escalating reward rather than a dead end.</p>
+      <p>Duplicate cards convert to 5 Sparks. The Codex shows silhouettes of uncollected cards so students can see what they are chasing, but silhouettes never reveal content, and there is no "complete the set now" purchase path.</p>
+
+      <h3><span class="hn">4.4</span> The Studio</h3>
+      <p>Creative Prompt enrichment outputs (drawings, designs, short writing) are saved to a personal <strong>Studio</strong> alongside the card that generated them. This is a private space by default. Sharing to a Crew is opt-in, requires guardian consent, and passes through moderation (§7.4).</p>
+    </section>
+
+    <!-- ================= 5 ================= -->
+    <section class="sec" id="s5">
+      <div class="sec-head">
+        <span class="sec-num">§5</span>
+        <h2>In-Round Game Feel</h2>
+        <span class="tag t-new">New in v2.0</span>
+      </div>
+
+      <h3><span class="hn">5.1</span> The Flow Meter</h3>
+      <p>A visible meter that fills with consecutive correct answers and multiplies base XP.</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:180px">Consecutive correct</th><th style="width:150px">Flow tier</th><th>XP multiplier</th></tr></thead>
+        <tbody>
+          <tr><td class="numl">0–2</td><td>Warming</td><td><div class="bar"><i style="width:26px"></i><span>1.00×</span></div></td></tr>
+          <tr><td class="numl">3–4</td><td>Locked In</td><td><div class="bar"><i style="width:42px"></i><span>1.25×</span></div></td></tr>
+          <tr><td class="numl">5–7</td><td>In Flow</td><td><div class="bar"><i style="width:58px"></i><span>1.50×</span></div></td></tr>
+          <tr><td class="numl">8–11</td><td>Deep Flow</td><td><div class="bar"><i style="width:74px"></i><span>1.75×</span></div></td></tr>
+          <tr><td class="numl">12+</td><td>Luminous</td><td><div class="bar"><i style="width:90px"></i><span>2.00×</span></div></td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note ignite">
+        <span class="note-k">Decay, not collapse</span>
+        <p>An incorrect answer drops the meter <em>one tier</em>, never to zero. A twelve-answer run followed by one mistake lands at Deep Flow, not Warming. This is the single most important tuning decision in the section: reset-to-zero combo systems teach students that one mistake ruins everything, which is precisely the belief a remediation-friendly product must avoid.</p>
+      </div>
+
+      <p><strong>Hints do not break Flow.</strong> Hint use is already priced into base XP (§3.1); charging it twice would push students to guess rather than ask for help, corrupting v1.0's hint-usage telemetry.</p>
+
+      <h3><span class="hn">5.2</span> Power-Ups: Learning Powers the Arcade</h3>
+      <p>Power-ups drop during the learning phase and are <strong>spent in the arcade half of the Hybrid Break</strong>. This is the mechanic that converts academic effort into felt advantage.</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:30%">Drop trigger</th><th style="width:22%">Power-Up</th><th>Arcade effect</th></tr></thead>
+        <tbody>
+          <tr><td>Reach Flow tier 3 (Locked In)</td><td><strong>Shield</strong></td><td>Absorb one hit / one miss</td></tr>
+          <tr><td>5 consecutive correct with no hints</td><td><strong>Overdrive</strong></td><td>2× score for 20 seconds</td></tr>
+          <tr><td>First-try correct on a node marked Developing</td><td><strong>Extra Life</strong></td><td>One additional run attempt</td></tr>
+          <tr><td>Resolve a repeated-mistake tag</td><td><strong>Nova Core</strong> <span class="tag t-new">Rare</span></td><td>Widened timing windows + 3× score for 15 seconds</td></tr>
+          <tr><td>Clear a Focus Boost micro-lesson</td><td><strong>Steady Hand</strong></td><td>Slows the game 15% for 20 seconds</td></tr>
+        </tbody>
+      </table></div>
+
+      <p><strong>Carry rules:</strong> maximum 4 power-ups per break. Unused power-ups do not carry to the next session — instead they convert to 10 Sparks each, so nothing is wasted and no student can stockpile ten Nova Cores to trivialize the arcade. Power-ups are strictly arcade-side; they can never be used on academic questions.</p>
+
+      <div class="note">
+        <span class="note-k">Why the cap matters</span>
+        <p>Without expiry, the optimal strategy becomes hoarding, which decouples this session's learning from this session's fun and breaks the design thesis in §0.2.</p>
+      </div>
+
+      <h3><span class="hn">5.3</span> Focus Boost <span class="tag t-rev">Reframed from v1.0 "Focus Mode"</span></h3>
+      <p>v1.0 triggered "Focus Mode" — a 3-question micro-lesson — after repeated mistakes on the same tag. The mechanic is good; the framing reads as a penalty box. v2.0 renames it <strong>Focus Boost</strong>, presents it as an opportunity ("Vela: this one keeps slipping — 90 seconds and we own it"), and attaches a power-up reward (Steady Hand) for completing it. Same pedagogy, inverted emotional valence.</p>
+
+      <h3><span class="hn">5.4</span> Moment-to-Moment Polish</h3>
+      <ul>
+        <li><strong>Answer feedback:</strong> correct answers land with a short particle burst and a rising tone; the tone pitch climbs with Flow tier, so the student <em>hears</em> their streak.</li>
+        <li><strong>Near-miss acknowledgment:</strong> on a wrong answer, the companion names what was close ("Your setup was right — the ratio just flipped") rather than a generic "Incorrect."</li>
+        <li><strong>Avatar reactions:</strong> the avatar idles, reacts to Flow tier changes, and celebrates mastery.</li>
+        <li><strong>Mastery moment:</strong> when a node flips to Mastered, the corresponding star on the map ignites in a full-screen beat. This is the primary celebration of the product and should be the most polished animation in the app.</li>
+        <li><strong>Reduced-motion mode</strong> substitutes crossfades and static states for every effect above, with no loss of information.</li>
+      </ul>
+    </section>
+
+    <!-- ================= 6 ================= -->
+    <section class="sec" id="s6">
+      <div class="sec-head">
+        <span class="sec-num">§6</span>
+        <h2>Narrative Layer: The Skill Galaxy as a Map</h2>
+        <span class="tag t-new">New in v2.0</span>
+      </div>
+
+      <h3><span class="hn">6.1</span> Structure</h3>
+      <p>v1.0's Skill Galaxy visualized mastered, developing, and locked nodes. v2.0 keeps that data model exactly and gives it a place.</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:34%">Graph concept</th><th>Rendered as</th></tr></thead>
+        <tbody>
+          <tr><td>Domain</td><td><strong>Sector</strong> with a name and a look — Number Sense → Kepler Station; Algebra → The Lattice; Geometry → Meridian Belt; Data &amp; Statistics → The Observatory; and parallel sectors for Reading</td></tr>
+          <tr><td>Micro-competency</td><td><strong>Star.</strong> Mastered stars glow, Developing stars pulse, locked stars are dim outlines</td></tr>
+          <tr><td>Prerequisite edge</td><td><strong>Flight path</strong> — a student can see that Slope-Intercept Form sits downstream of Linear Expressions</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note hold">
+        <p>The map is a view of the graph. Narrative never reorders instruction: if the adaptive engine routes to a prerequisite node, the story accommodates it.</p>
+      </div>
+
+      <h3><span class="hn">6.2</span> Vela, the Companion</h3>
+      <p>A navigation AI, present in a corner of the screen, with a small dialogue vocabulary and a consistent voice: warm, plain-spoken, never saccharine, never sarcastic about mistakes. Students may rename her at level 9 and customize her look.</p>
+
+      <h4>Voice samples that define the register</h4>
+      <div class="voice">
+        <div><span class="k">On a wrong answer</span><span class="q">"Close. Your setup was right — the ratio just flipped. Try it the other way."</span></div>
+        <div><span class="k">On a hint request</span><span class="q">"Good call asking. Here's the piece you need."</span></div>
+        <div><span class="k">Below-threshold round</span><span class="q">"We didn't clear the gate. But I logged three things you got sharper at. Tomorrow we take it from prerequisites."</span></div>
+        <div><span class="k">On mastery</span><span class="q">"That star's ours. Number Sense is one node from lighting up completely."</span></div>
+        <div><span class="k">Return after absence</span><span class="q">"You're back. Picking up where we left off — nothing lost."</span></div>
+      </div>
+
+      <p>Explicitly out of register: guilt ("you haven't practiced in 3 days"), urgency ("your streak dies in 2 hours"), and false enthusiasm for low-effort actions.</p>
+
+      <h3><span class="hn">6.3</span> Constellation Trials</h3>
+      <p>When every node in a sector reaches Mastered, that sector's <strong>Constellation Trial</strong> unlocks — the product's boss encounter.</p>
+      <p><strong>Structure:</strong> 5 questions drawn from across the sector at the top difficulty tier, in the student's theme, followed immediately by a themed arcade finale where power-ups earned during the trial apply.</p>
+
+      <h4>Stakes, carefully bounded</h4>
+      <ul>
+        <li>Passing requires 4 of 5. Two attempts per session.</li>
+        <li>Failing costs nothing. Mastery states do not regress, no XP is lost, and the Trial simply remains available. Vela: <em>"The constellation's not going anywhere."</em></li>
+        <li>Rewards: the sector lights permanently on the map, a sector badge, 250 XP, 100 Sparks, and a guaranteed <strong>Luminous</strong> Discovery Card.</li>
+      </ul>
+
+      <p>Trials are the only place where a genuinely hard, high-ceremony academic challenge exists, which is what makes them feel like an event. They must never be required to progress — a student who never attempts one still advances through the graph normally.</p>
+    </section>
+
+    <!-- ================= 7 ================= -->
+    <section class="sec" id="s7">
+      <div class="sec-head">
+        <span class="sec-num">§7</span>
+        <h2>Social Layer</h2>
+        <span class="tag t-new">New — opt-in, low-stakes</span>
+      </div>
+
+      <div class="note hold">
+        <p>All social features are <strong>off by default</strong>, require guardian consent, unlock at level 4 or above, and are fully usable-by-omission: a student who never opts in loses no content, XP, or cards.</p>
+      </div>
+
+      <h3><span class="hn">7.1</span> Crews</h3>
+      <p>Groups of 4–6 with a shared weekly goal drawn from effort metrics:</p>
+      <ul>
+        <li>Collect 600 combined focus minutes</li>
+        <li>Resolve 15 combined repeated-mistake tags</li>
+        <li>Collect 12 combined Discovery Cards</li>
+        <li>Complete 20 combined quests</li>
+      </ul>
+      <p>Completing a crew goal grants every member Sparks and a crew banner. <strong>Crew goals are additive, never competitive between members</strong>, and individual accuracy is never visible to peers — a crewmate sees your focus minutes and cards, not your scores. A student having a hard week cannot let the crew down in a visible way, because the goal is a sum and shortfalls are shown as a crew total, not a per-member breakdown.</p>
+
+      <h3><span class="hn">7.2</span> Leaderboards Ranked on Effort</h3>
+      <p>Weekly, opt-in, and deliberately measuring things a struggling student can win:</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:30%">Board</th><th>Measures</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Focus Minutes</strong></td><td>Time in deliberate practice</td></tr>
+          <tr><td><strong>Mistakes Resolved</strong></td><td>Repeated-mistake tags cleared</td></tr>
+          <tr><td><strong>Cards Collected</strong></td><td>Curiosity</td></tr>
+          <tr><td><strong>Explorer</strong></td><td>Distinct themes engaged</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>Raw accuracy is never ranked. Only the top 3 are named; everyone else sees a band ("top half," "climbing") rather than an absolute position, so there is no last place. Boards reset weekly, and no reward depends on placing.</p>
+
+      <h3><span class="hn">7.3</span> Duels</h3>
+      <p>Async and friendly. Two students answer the same 5 questions from the same seed, then watch a <strong>ghost replay</strong> of the other's run. There is no rating, no ladder, and both participants earn Sparks. A duel is a shared experience with a scoreboard attached, not a ranked mode — a rated system would punish the students who most need practice.</p>
+
+      <h3><span class="hn">7.4</span> Communication Constraints</h3>
+      <p>There is no free-text chat between students. Interaction is limited to a fixed set of preset emotes and reactions, and any Studio work shared to a Crew passes through automated moderation plus a report path. This is a deliberate ceiling on social features: for a middle-school product, the risk of open messaging outweighs its engagement value.</p>
+    </section>
+
+    <!-- ================= 8 ================= -->
+    <section class="sec" id="s8">
+      <div class="sec-head">
+        <span class="sec-num">§8</span>
+        <h2>The Hybrid Break</h2>
+        <span class="tag t-exp">Expanded from v1.0 §5</span>
+      </div>
+
+      <h3><span class="hn">8.1</span> Unlock Criteria <span class="tag t-pre">Unchanged in substance</span></h3>
+      <ul>
+        <li>Complete a quest (full question set)</li>
+        <li>Achieve the accuracy threshold — default 85%, per-student adjustable (§11.1)</li>
+        <li>No more than 3 hints used, adjustable per student profile</li>
+      </ul>
+      <div class="note hold">
+        <p>No game-layer currency, level, or social standing can substitute for these.</p>
+      </div>
+
+      <h3><span class="hn">8.2</span> Phase 1 — Arcade, 2.5 minutes <span class="hn">"Recharge"</span></h3>
+      <p>Five skill-based mini-games, each theme-skinnable, each consuming power-ups earned during the quest. The student's theme selects a default; any unlocked game can be chosen manually.</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:18%">Game</th><th style="width:14%">Native theme</th><th style="width:26%">Core skill</th><th>Power-up interaction</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nova Runner</strong></td><td>Space</td><td>Reaction + route reading</td><td>Shield absorbs a collision; Extra Life restarts a run</td></tr>
+          <tr><td><strong>Beat Match</strong></td><td>Music</td><td>Rhythm precision</td><td>Overdrive doubles combo scoring; Steady Hand widens windows</td></tr>
+          <tr><td><strong>Stat Slam</strong></td><td>Sports</td><td>Timing + arc estimation</td><td>Nova Core triples scoring during a hot streak</td></tr>
+          <tr><td><strong>Craft Chain</strong></td><td>Gaming</td><td>Pattern matching + planning</td><td>Steady Hand slows the descent; Shield clears one jam</td></tr>
+          <tr><td><strong>Habitat Rescue</strong></td><td>Animals</td><td>Pathfinding + spatial logic</td><td>Extra Life retries a failed route; Overdrive doubles rescues</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>Per v1.0, these are skill-based, not mindless tapping.</p>
+
+      <div class="note ignite">
+        <span class="note-k">Timing rule</span>
+        <p>At 2:30 the game stops accepting new runs but lets an in-progress run finish (up to 20 seconds of grace). Cutting a student off mid-run to enforce a timer trades a small scheduling win for a real frustration cost.</p>
+      </div>
+
+      <h3><span class="hn">8.3</span> Phase 2 — Educational Enrichment, 2.5 minutes <span class="hn">"Discover"</span></h3>
+      <p>Ungraded, unpenalized, interest-connected. Formats:</p>
+      <ol>
+        <li><strong>Trivia Challenge</strong> — 3 questions on the interest theme</li>
+        <li><strong>Real-World Connection</strong> — short article or clip + 1 reflection question</li>
+        <li><strong>Creative Prompt</strong> — open-ended design or writing task, saved to the Studio</li>
+        <li><strong>Puzzle / Logic</strong> — visual patterns, light cryptography, logic grids</li>
+        <li><strong>Maker Moment</strong> — step-by-step drawing, a code snippet, or a music-theory mini-lesson</li>
+        <li><strong>Expedition</strong> <span class="tag t-new">New</span> — a multi-chapter long-form exploration consumed one chapter per break, unlocked by completing a Codex set</li>
+      </ol>
+      <p>Each completed segment awards one Discovery Card.</p>
+
+      <h3><span class="hn">8.4</span> Enrichment Selection <span class="tag t-rev">Resolves v1.0 Open Question 3</span></h3>
+      <p>v1.0 asked whether enrichment should be student-choice or algorithm-picked. It is both, in a fixed ratio. The student is shown <strong>three options and picks one</strong>:</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:24%">Slot</th><th style="width:18%">Chosen by</th><th>What it offers</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A — Gap-adjacent</strong></td><td>Algorithm</td><td>Content whose background knowledge touches a skill node the student is currently developing. Not a disguised drill; a Space student struggling with ratios might get a card on how engineers scale rocket fuel mixtures</td></tr>
+          <tr><td><strong>B — Set-completion</strong></td><td>Algorithm</td><td>Content that yields a card the student is missing from an incomplete set, biased toward the <strong>Anomalies</strong> set after more than five sessions in one theme. This is the theme-fatigue solution: novelty is <em>pulled</em> by collection desire rather than <em>pushed</em> by the system</td></tr>
+          <tr><td><strong>C — Free choice</strong></td><td>Student</td><td>Any unlocked format, any theme, no algorithmic input. Pure agency, always present</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>If the student declines to choose within 15 seconds, Slot A runs automatically so the timer is never spent deliberating.</p>
+    </section>
+
+    <!-- ================= 9 ================= -->
+    <section class="sec" id="s9">
+      <div class="sec-head">
+        <span class="sec-num">§9</span>
+        <h2>Student Experience Flow</h2>
+        <span class="tag t-rev">Revised from v1.0 §6</span>
+      </div>
+
+      <div class="plate">
+<pre class="mermaid">
+flowchart TD
+Login[Login] --> Dash["Dashboard: Skill Galaxy, Quest Log, Codex"]
+Dash --> Accept["Accept Quest: named objective + target node"]
+Accept --> Stream[Adaptive Question Stream]
+Stream -->|Skill Graph drives sequence| Stream
+Stream --> Flow["Flow Meter fills, Power-Ups drop"]
+Flow --> Repeat{"Repeated mistake on a tag?"}
+Repeat -->|Yes| Boost[Focus Boost micro-lesson] --> Stream
+Repeat -->|No| Done[Quest Complete]
+Done --> Gate{"Accuracy at threshold, hints within cap?"}
+Gate -->|No| Support["Vela debrief: specific gains, graph update, prerequisite plan"]
+Support --> Consolation["Partial XP, Sparks, quest credit retained"]
+Consolation --> Summary
+Gate -->|Yes| Arcade["Arcade 2.5 min (power-ups spent here)"]
+Arcade --> Discover["Discover 2.5 min (3 slots, pick 1)"]
+Discover --> Card[Discovery Card added to Codex]
+Card --> Summary["Session Summary: mastery, XP, level, cards, next preview"]
+Summary --> Trial{Sector fully mastered?}
+Trial -->|Yes| ConTrial[Constellation Trial available]
+Trial -->|No| Choose
+ConTrial --> Choose[Continue / Codex / Crew / Outfitter / Log Out]
+</pre>
+      </div>
+      <p class="plate-cap">Fig. 9 — Session flow, both gate outcomes</p>
+
+      <h3><span class="hn">9.1</span> The Below-Threshold Path Matters Most</h3>
+      <p>v1.0 sent students who missed 85% to an "Encouragement + Skill Graph Update" screen. That is the highest-risk moment in the entire product — it is where students quit. v2.0 specifies it concretely:</p>
+      <ul>
+        <li><strong>Partial rewards are real.</strong> All XP earned during the round is kept, Sparks are kept, and quest progress is credited. Missing the gate costs the break, not the session's worth.</li>
+        <li><strong>Specificity over comfort.</strong> The debrief names 2–3 concrete things that improved ("your ratio setups went from 2 of 6 to 5 of 7") rather than "nice try."</li>
+        <li><strong>A concrete tomorrow.</strong> The student sees exactly what the next session will do: which prerequisite nodes it pulls from and in which theme.</li>
+        <li><strong>One Discovery Card is still awarded</strong> for finishing the full question set. Curiosity rewards are never gated on accuracy — only the arcade is.</li>
+      </ul>
+
+      <div class="note ignite">
+        <span class="note-k">The metric to watch</span>
+        <p><strong>Return-After-Miss Rate</strong> (§15). If students who miss the gate do not come back, this section is wrong regardless of what other numbers say.</p>
+      </div>
+    </section>
+
+    <!-- ================= 10 ================= -->
+    <section class="sec" id="s10">
+      <div class="sec-head">
+        <span class="sec-num">§10</span>
+        <h2>Student Dashboard</h2>
+        <span class="tag t-rev">Revised from v1.0 §7</span>
+      </div>
+
+      <h3><span class="hn">10.1</span> Main View</h3>
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:26%">Panel</th><th>Contents</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Skill Galaxy</strong></td><td>The sector map (§6.1) with glowing, pulsing, and dim stars, plus prerequisite flight paths</td></tr>
+          <tr><td><strong>Avatar</strong></td><td>Theme gear purchased with Sparks, plus titles and auras from Codex sets</td></tr>
+          <tr><td><strong>Vela panel</strong></td><td>Today's line, quest suggestion</td></tr>
+          <tr><td><strong>Quest Log</strong></td><td>3 dailies + 1 weekly with progress bars</td></tr>
+          <tr><td><strong>Discovery Codex</strong></td><td>Sets, silhouettes of missing cards, set-completion progress</td></tr>
+          <tr><td><strong>Focus Streak</strong></td><td>Days of deliberate practice (not logins), with <strong>one grace day per week applied automatically and silently</strong>. There is no "your streak is at risk" notification and no streak-loss modal</td></tr>
+          <tr><td><strong>Crew panel</strong></td><td>If opted in — shared weekly goal progress as a crew total</td></tr>
+          <tr><td><strong>Outfitter</strong></td><td>Sparks spending</td></tr>
+          <tr><td><strong>Studio</strong></td><td>Saved Creative Prompt work</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><span class="hn">10.2</span> Post-Session Summary</h3>
+      <ul>
+        <li>Accuracy with <strong>specific</strong> feedback, per v1.0: "You mastered Ratio Reasoning," not "Good job"</li>
+        <li>XP earned, broken out by source (answers, Flow multiplier, milestones), plus level progress</li>
+        <li>Sparks earned and any new Discovery Card, presented as a card reveal</li>
+        <li>Time breakdown: focused work vs. hint time</li>
+        <li>Skill Graph delta: which stars changed state this session</li>
+        <li>Power-up ledger: earned, spent in the arcade, converted to Sparks</li>
+        <li>Next session preview: "Tomorrow you'll explore slope-intercept form through [your theme]"</li>
+      </ul>
+
+      <div class="note ignite">
+        <span class="note-k">A healthy stopping point</span>
+        <p>If the student has completed two or more quests, the summary's primary action becomes <strong>"Good place to stop"</strong> with "One more quest" as the secondary. The product should not be optimized for maximum session length.</p>
+      </div>
+    </section>
+
+    <!-- ================= 11 ================= -->
+    <section class="sec" id="s11">
+      <div class="sec-head">
+        <span class="sec-num">§11</span>
+        <h2>Adjustable Thresholds and Accessibility</h2>
+        <span class="tag t-rev">Revised</span>
+      </div>
+
+      <h3><span class="hn">11.1</span> Per-Student Mastery Threshold <span class="tag t-rev">Resolves v1.0 Open Question 1</span></h3>
+      <p>Yes, the threshold is adjustable, with constraints:</p>
+      <ul>
+        <li>Default 85%. Adjustable range <strong>70–95%</strong>.</li>
+        <li>Adjustable only by an educator or guardian through the teacher/parent branch, never by the student, and never automatically by the engine.</li>
+        <li>The threshold is <strong>invisible as a comparison</strong>: the student sees "your goal," never "the normal goal is higher."</li>
+        <li>Hint caps scale with it (a 75% threshold pairs with a 5-hint cap).</li>
+        <li>Rewards are identical at every threshold. A student at 75% earns the same XP, cards, and arcade time as a student at 85%. Any other choice turns an accommodation into a visible penalty.</li>
+        <li>Because thresholds differ between students, <strong>no leaderboard or crew metric may reference the threshold or accuracy</strong> — which is independently why §7.2 ranks effort.</li>
+      </ul>
+
+      <h3><span class="hn">11.2</span> Accessibility</h3>
+      <ul>
+        <li>Reduced-motion mode across all celebrations, the galaxy map, and the arcade</li>
+        <li>Dyslexia-friendly font toggle; adjustable text size and line spacing</li>
+        <li>Colorblind-safe node states (shape and animation differentiate mastered/developing/locked, not color alone)</li>
+        <li>Full keyboard playability for every arcade game; no game requires precise dragging</li>
+        <li>Screen-reader labels for the Skill Galaxy, expressed as text ("Ratio Reasoning: mastered; unlocks Slope-Intercept Form")</li>
+        <li>Captions and transcripts for all Real-World Connection media</li>
+        <li>Arcade games offer an assist mode (slower speed) that does not reduce rewards</li>
+      </ul>
+    </section>
+
+    <!-- ================= 12 ================= -->
+    <section class="sec" id="s12">
+      <div class="sec-head">
+        <span class="sec-num">§12</span>
+        <h2>Anti-Frustration and Ethics Guardrails</h2>
+        <span class="tag t-new">New in v2.0</span>
+      </div>
+
+      <p>This product's users are children, and its engagement systems are therefore constrained beyond what a consumer game would accept.</p>
+
+      <div class="gr">
+        <div class="no">
+          <h4>Prohibited by design</h4>
+          <ul>
+            <li><strong>No loss aversion.</strong> Nothing earned is ever removed. No expiring streaks with warnings, no decaying XP, no seasonal resets that wipe progress.</li>
+            <li><strong>No punishing timers.</strong> The 20 minutes is a budget, not a countdown to failure; the arcade never cuts a run short (§8.2).</li>
+            <li><strong>No pay-to-win</strong>, no real-money purchases, no ads, no third-party ad tracking.</li>
+            <li><strong>No trading or gifting</strong> between students, which removes a coercion vector.</li>
+            <li><strong>No public accuracy comparison</strong> anywhere in the product.</li>
+            <li><strong>No guilt or urgency messaging.</strong> Notifications capped at one per day, never after 8 p.m. local time, and never referencing streaks at risk or peers' progress.</li>
+            <li><strong>No infinite scroll or autoplay</strong> in enrichment content.</li>
+            <li><strong>No dark-pattern retention loops</strong> — no daily-login-only rewards, no "one more to unlock" cliffhangers on session exit, no variable-ratio schedules tuned for compulsion. Rarity is deterministic per source; there are no random packs, no lootboxes, and no purchasable pulls.</li>
+            <li><strong>Focus Boost is never framed as punishment</strong> (§5.3).</li>
+          </ul>
+        </div>
+        <div class="yes">
+          <h4>Required by design</h4>
+          <ul>
+            <li>Partial credit for effort on every path, <strong>including failure</strong> (§9.1)</li>
+            <li>A visible healthy stopping point (§10.2)</li>
+            <li>Guardian consent for all social features, with a full opt-out that costs no content</li>
+            <li>COPPA/FERPA-aligned data handling; telemetry serves pedagogy, not ad targeting</li>
+            <li>Any A/B test affecting rewards or difficulty must be reviewed for impact on <strong>struggling students specifically</strong>, not just aggregate engagement</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 13 ================= -->
+    <section class="sec" id="s13">
+      <div class="sec-head">
+        <span class="sec-num">§13</span>
+        <h2>Technical Architecture</h2>
+        <span class="tag t-exp">Additions to v1.0 §8</span>
+      </div>
+
+      <p>v1.0's stack stands: React or Vue front end, Phaser.js or PixiJS for arcade games, a Node.js/Python adaptive-engine microservice, a tagged themed question bank, and per-session telemetry. v2.0 adds:</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:26%">Service</th><th>Responsibility</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Progression</strong></td><td>XP, levels, Sparks, unlocks. Must be authoritative server-side; a client-authoritative economy invites tampering that would undermine the mastery gate's credibility</td></tr>
+          <tr><td><strong>Quest</strong></td><td>Daily/weekly generation, objective verification against Skill Graph events</td></tr>
+          <tr><td><strong>Card / Codex</strong></td><td>Set definitions, award rules, rarity sourcing, Studio storage</td></tr>
+          <tr><td><strong>Crew</strong></td><td>Membership, aggregate weekly goals, moderation queue, consent state</td></tr>
+          <tr><td><strong>Local-first session state</strong> <span class="tag t-rev">Resolves v1.0 Q4</span></td><td>A quest, its questions, and the arcade run cache locally; results queue and sync on reconnect. Enrichment media prefetches one segment ahead. Cards and XP earned offline are provisional client-side and confirmed on sync. Constellation Trials, Duels, and Crew updates require connectivity</td></tr>
+          <tr><td><strong>Content pipeline</strong></td><td>Quest-name templates keyed by node × theme, and a card authoring format with rarity, set, theme, and source constraints</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><span class="hn">13.1</span> Data Model Additions</h3>
+      <p>v1.0 collections (<code>students</code>, <code>skill_nodes</code>, <code>questions</code>, <code>sessions</code>, <code>mini_games</code>, <code>enrichment</code>) are unchanged. New:</p>
+<pre><b>progression</b>: { student_id, xp, level, sparks, flow_best, unlocks[] }
+<b>quests</b>:      { id, student_id, type, objective, target, progress,
+                reward, expires_at }
+<b>cards</b>:       { id, set_id, theme, title, content, rarity, source }
+<b>card_owned</b>:  { student_id, card_id, earned_at, session_id }
+<b>sets</b>:        { id, theme, card_ids[], completion_reward }
+<b>crews</b>:       { id, members[], weekly_goal, progress, reward,
+                consent_state }
+<b>powerups</b>:    { id, type, effect, session_earned, game_consumed,
+                sparks_converted }
+<b>trials</b>:      { id, sector_id, question_pool[], attempts, cleared_at }
+<b>studio</b>:      { id, student_id, prompt_id, artifact, shared }</pre>
+      <p><code>students</code> gains <code>mastery_threshold</code>, <code>hint_cap</code>, <code>companion_name</code>, <code>social_opt_in</code>, and <code>accessibility_prefs</code>.</p>
+    </section>
+
+    <!-- ================= 14 ================= -->
+    <section class="sec" id="s14">
+      <div class="sec-head">
+        <span class="sec-num">§14</span>
+        <h2>Implementation Phases</h2>
+        <span class="tag t-rev">Revised from v1.0 §9</span>
+      </div>
+
+      <p>Phases 1–4 preserve v1.0's 16-week plan with game-layer work folded in where it is cheap to build alongside the underlying system.</p>
+
+      <div class="phases">
+        <div class="phase">
+          <div class="pw"><b>Phase 1</b>Weeks 1–4</div>
+          <div>
+            <h5>Foundation</h5>
+            <ul>
+              <li>Skill Graph data structure + adaptive routing algorithm</li>
+              <li>Themed question bank (Math 200, Reading 200)</li>
+              <li>Student login + interest selection</li>
+              <li class="add"><b>Added ·</b> XP/Sparks schema and progression service skeleton; quest-name template bank</li>
+            </ul>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="pw"><b>Phase 2</b>Weeks 5–8</div>
+          <div>
+            <h5>Core Loop</h5>
+            <ul>
+              <li>20-minute session UI, real-time accuracy/hint tracking</li>
+              <li>Post-session summary + Skill Graph visualization</li>
+              <li class="add"><b>Added ·</b> Quest framing and objective cards; Flow Meter; power-up drop logic; Focus Boost reframing; the below-threshold debrief path (§9.1) built as a first-class screen, not a fallback</li>
+            </ul>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="pw"><b>Phase 3</b>Weeks 9–12</div>
+          <div>
+            <h5>Hybrid Break</h5>
+            <ul>
+              <li>Two arcade mini-games; unlock logic + break timer</li>
+              <li>Enrichment library (30 items across 5 themes)</li>
+              <li class="add"><b>Added ·</b> Power-up consumption in arcade; Discovery Cards and Codex v1 with two sets; three-slot enrichment selection</li>
+            </ul>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="pw"><b>Phase 4</b>Weeks 13–16</div>
+          <div>
+            <h5>Progression &amp; Polish</h5>
+            <ul>
+              <li>Three more mini-games; enrichment expanded past 100 items</li>
+              <li>Student testing + adaptive algorithm iteration</li>
+              <li class="add"><b>Added ·</b> Learner Levels and unlock ladder; Outfitter; Skill Galaxy sector map with Vela dialogue; accessibility pass; game-feel pass</li>
+            </ul>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="pw"><b>Phase 5</b>Weeks 17–20<br>New</div>
+          <div>
+            <h5>Trials &amp; Social</h5>
+            <ul>
+              <li>Constellation Trials for all sectors</li>
+              <li>Crews, effort leaderboards, moderation queue, guardian consent flows</li>
+              <li>Remaining Codex sets, set-completion rewards</li>
+            </ul>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="pw"><b>Phase 6</b>Weeks 21–24<br>New</div>
+          <div>
+            <h5>Depth &amp; Offline</h5>
+            <ul>
+              <li>Expeditions (long-form enrichment)</li>
+              <li>Duels</li>
+              <li>Local-first offline mode and sync</li>
+              <li>Companion customization; Studio sharing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <p>Phases 5 and 6 are deliberately <em>after</em> student testing, because the social and boss systems should be tuned against observed behavior in the core loop rather than designed blind.</p>
+      </div>
+    </section>
+
+    <!-- ================= 15 ================= -->
+    <section class="sec" id="s15">
+      <div class="sec-head">
+        <span class="sec-num">§15</span>
+        <h2>Success Metrics</h2>
+        <span class="tag t-rev">Revised from v1.0 §10</span>
+      </div>
+
+      <h4>Retained from v1.0</h4>
+      <div class="tw"><table class="compact">
+        <thead><tr><th>Metric</th><th style="width:34%">Target</th></tr></thead>
+        <tbody>
+          <tr><td>Session Completion Rate</td><td class="numl">&gt; 80%</td></tr>
+          <tr><td>Accuracy Threshold Hit Rate</td><td class="numl">&gt; 60%</td></tr>
+          <tr><td>Avg. Hints per Session</td><td class="numl">Declining over time</td></tr>
+          <tr><td>Repeated Mistake Resolution</td><td class="numl">&gt; 70% within 2 sessions</td></tr>
+          <tr><td>Card Award Rate <span class="hn">(was Bookmark Rate)</span></td><td class="numl">&gt; 40% of breaks</td></tr>
+          <tr><td>Student Retention (7-day)</td><td class="numl">&gt; 50%</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Added for v2.0</h4>
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:26%">Metric</th><th style="width:22%">Target</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Return-After-Miss Rate</strong></td><td class="numl">&gt; 65% within 2 days</td><td>The single most important number in the document. Measures whether missing the gate demoralizes students</td></tr>
+          <tr><td>Quest Completion Rate</td><td class="numl">&gt; 70% of accepted</td><td>Whether quest framing actually motivates</td></tr>
+          <tr><td>Daily Quest Claim Rate</td><td class="numl">&gt; 50%</td><td>Whether Quest Log objectives are legible and achievable</td></tr>
+          <tr><td>Power-Up Utilization</td><td class="numl">&gt; 80% spent</td><td>If low, the arcade link is not landing</td></tr>
+          <tr><td>Card Set Completion</td><td class="numl">&gt; 25% in 8 weeks</td><td>Whether long-term collection works</td></tr>
+          <tr><td>Anomalies Set Engagement</td><td class="numl">&gt; 30% earn 1+</td><td>Whether the theme-fatigue solution works</td></tr>
+          <tr><td>Crew Participation (of eligible)</td><td class="numl">&gt; 40%</td><td>Social value without coercion</td></tr>
+          <tr><td>Constellation Trial Attempt Rate</td><td class="numl">&gt; 50% of unlocked</td><td>Whether the boss reads as inviting rather than intimidating</td></tr>
+          <tr><td>Trial Retry Rate After Failure</td><td class="numl">&gt; 60%</td><td>Whether failure is genuinely low-stakes</td></tr>
+          <tr><td>Student Retention (30-day)</td><td class="numl">&gt; 35%</td><td>Long-arc value of the progression layer</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note hold">
+        <span class="note-k">Guardrail metrics</span>
+        <p>Watched to make sure engagement is not bought with harm. Any of these tripping is a design failure regardless of headline numbers:</p>
+        <ul>
+          <li>Median session length should stay near 25–50 minutes; a rising tail indicates compulsion rather than value</li>
+          <li>Rushing rate (answers below 60% of personal median) must not rise as Flow rewards are tuned</li>
+          <li>Hint use must not fall while accuracy also falls — that pattern means students are guessing to protect Flow</li>
+          <li>Below-threshold students' XP-per-session must remain within 60% of above-threshold students'</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= 16 ================= -->
+    <section class="sec" id="s16">
+      <div class="sec-head">
+        <span class="sec-num">§16</span>
+        <h2>Open Questions</h2>
+        <span class="tag t-rev">Revised</span>
+      </div>
+
+      <h3><span class="hn">16.1</span> Resolved from v1.0</h3>
+      <ol class="oq solved">
+        <li><div><strong>Adjustable 85% threshold?</strong> Yes — 70–95%, educator-set, invisible to peers, identical rewards at every level (§11.1).</div></li>
+        <li><div><strong>Theme fatigue?</strong> Solved by pull rather than push: the <strong>Anomalies</strong> card set only fills from unfamiliar themes, and enrichment Slot B biases toward it after five sessions in one theme (§4.2, §8.4). Explorer standing on leaderboards reinforces it. Students are never forced out of a theme they love.</div></li>
+        <li><div><strong>Enrichment student-choice or algorithm-picked?</strong> Both, fixed: 2 algorithm slots (gap-adjacent, set-completion) + 1 free-choice slot, student picks one of three (§8.4).</div></li>
+        <li><div><strong>Offline mode?</strong> Local-first quest and arcade caching with sync-on-reconnect; Trials, Duels, and Crews require connectivity (§13).</div></li>
+        <li><div><strong>Parent/teacher view?</strong> Remains a separate branch. The student branch exposes only: mastery threshold and hint cap (read), social consent state (read), and a telemetry stream. Guardians never see Studio artifacts without the student sharing them, and the student branch never renders guardian-facing commentary.</div></li>
+      </ol>
+
+      <h3><span class="hn">16.2</span> New to v2.0</h3>
+      <ol class="oq">
+        <li><div><strong>Economy tuning source.</strong> The XP and Spark numbers in §3 are reasoned but unvalidated. Do we tune them from Phase 2 telemetry, or run a small pilot with a deliberately generous economy first and tighten later? Tightening an economy after launch is historically the more painful direction.</div></li>
+        <li><div><strong>Power-up expiry.</strong> Converting unused power-ups to Sparks (§5.2) prevents hoarding but may read as loss to students. Is a 1-session carryover with a hard cap of 4 a better compromise?</div></li>
+        <li><div><strong>Flow Meter and rushing.</strong> Flow rewards consecutive correctness, which could encourage guessing on hard questions to protect the streak. Guardrail metrics in §15 will detect it, but do we need a preemptive mechanic — for example, Flow pausing rather than decaying on skipped questions?</div></li>
+        <li><div><strong>Crew composition.</strong> Auto-assigned by similar practice volume, teacher-assigned, or friend-invite? Auto-assignment by volume avoids ability sorting but may produce inactive crews.</div></li>
+        <li><div><strong>Card content pipeline.</strong> Eight cards per set across six sets is 48 authored cards minimum, each needing art. Human-authored, templated, or a hybrid, and who reviews for accuracy?</div></li>
+        <li><div><strong>Constellation Trial difficulty ceiling.</strong> Top-tier questions across a whole sector may be genuinely hard. Does a failed trial need a scaffolded second form, or does that undercut the event?</div></li>
+        <li><div><strong>Level 10+ pacing.</strong> Cosmetic-only rewards past level 10 may feel hollow for the most engaged students. Does a prestige-style path exist that adds no functional advantage?</div></li>
+        <li><div><strong>Companion voice localization.</strong> Vela's register is central to the product's tone. How does it survive translation, and who owns the voice guide?</div></li>
+      </ol>
+    </section>
+
+    <div class="colophon">
+      <span>Plan Version 2.0 — QuestBreak Student Branch</span>
+      <span>Why it exists: <a href="/prd.html">the PRD</a></span>
+      <span>§0.1 non-negotiable · §2–§8 tunable</span>
+    </div>
+
+  </main>
+</div>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      background: '#F7F8FA',
+      primaryColor: '#FFFFFF',
+      primaryTextColor: '#131A24',
+      primaryBorderColor: '#98A5B4',
+      lineColor: '#7C8898',
+      secondaryColor: '#F1E4CC',
+      tertiaryColor: '#E6EBF1',
+      fontFamily: 'Archivo, Helvetica, Arial, sans-serif',
+      fontSize: '14px'
+    }
+  });
+</script>
+<script src="/theme.js"></script>
+</body>
+</html>

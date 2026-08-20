@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuestBreak PRD</title>
+<meta name="description" content="Product requirements for QuestBreak: who it is for, the problem it solves, its north star metric, and the high-level approach.">
+<meta property="og:title" content="QuestBreak PRD">
+<meta property="og:description" content="Who it is for, the problem it solves, its north star metric, and the high-level approach.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23A96A12'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
+<link rel="stylesheet" href="/style.css">
+<script>
+  (function(){try{var t=localStorage.getItem('qb-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+</head>
+<body>
+
+<header class="sitebar">
+  <a class="brand" href="/"><i></i><span>QuestBreak</span></a>
+  <nav>
+    <a href="/">Overview</a>
+    <a href="/prd.html" aria-current="page">PRD</a>
+    <a href="/plan.html">Plan v2.0</a>
+    <button class="tog" id="tog" type="button" aria-label="Toggle colour theme">Theme</button>
+  </nav>
+</header>
+
+<div class="shell">
+
+  <aside class="rail">
+    <div class="rail-mark">
+      <b>PRD</b>
+      Draft v0.1
+    </div>
+    <nav id="toc" aria-label="Sections">
+      <a href="#s1"><i class="star"></i><span class="n">§1</span><span class="lbl">Introduction</span></a>
+      <a href="#s2"><i class="star"></i><span class="n">§2</span><span class="lbl">Who It's For</span></a>
+      <a href="#s3"><i class="star"></i><span class="n">§3</span><span class="lbl">The Problem</span></a>
+      <a href="#s4"><i class="star"></i><span class="n">§4</span><span class="lbl">Value Proposition</span></a>
+      <a href="#s5"><i class="star"></i><span class="n">§5</span><span class="lbl">North Star</span></a>
+      <a href="#s6"><i class="star"></i><span class="n">§6</span><span class="lbl">Approach &amp; Design</span></a>
+      <a href="#s7"><i class="star"></i><span class="n">§7</span><span class="lbl">Open Decisions</span></a>
+      <a href="#s8"><i class="star"></i><span class="n">§8</span><span class="lbl">How We'll Know</span></a>
+    </nav>
+  </aside>
+
+  <main>
+
+    <header class="masthead">
+      <div class="eyebrow">Product Requirements · Draft v0.1 · 19 August 2026</div>
+      <h1>Why QuestBreak<br><em>should exist</em></h1>
+      <p class="deck">This document sits upstream of the system plan. That plan specifies what the systems do; this one establishes who the product is for, what it is for, and how we will know it worked.</p>
+      <div class="mast-meta">
+        <span>Primary user <b>Grades 6–8</b></span>
+        <span>Category <b>Practice habit</b></span>
+        <span>Companion doc <b><a href="/plan.html">Plan v2.0</a></b></span>
+      </div>
+    </header>
+
+    <!-- ============ 1 ============ -->
+    <section class="sec" id="s1">
+      <div class="sec-head">
+        <span class="sec-num">§1</span>
+        <h2>Introduction</h2>
+      </div>
+
+      <h3><span class="hn">1.1</span> What is it?</h3>
+      <p><strong>QuestBreak is an adaptive practice app for middle schoolers that alternates 20 minutes of standards-aligned academic work with a 5-minute earned break — half arcade game, half curiosity content.</strong></p>
+      <p>That structure alone is not new. The thing that makes QuestBreak a distinct product is one mechanic:</p>
+
+      <div class="thesis">
+        <span class="note-k">The design thesis</span>
+        <p>How well you learn changes how good the break is — not merely whether you get one.</p>
+      </div>
+
+      <p style="margin-top:22px">Learning well during the quest drops power-ups that are spent inside the arcade game. A student who reasoned carefully and asked for help when stuck enters the break with a Shield and an Overdrive. A student who scraped past the gate enters with nothing. Both earned the break; only one earned an advantage in it.</p>
+      <p>This is the difference between a <strong>toll booth</strong> and a <strong>payoff</strong>. Every gamified learning product gates fun behind work. QuestBreak is built so that the quality of the work is felt inside the fun.</p>
+
+      <h3><span class="hn">1.2</span> What kind of product is it?</h3>
+      <p>It is a <strong>practice-habit product</strong>, and the category matters because it defines what we are not building.</p>
+
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:50%">It is</th><th>It is not</th></tr></thead>
+        <tbody>
+          <tr><td>Practice and reinforcement of skills already introduced</td><td>A first-instruction tutor or curriculum replacement</td></tr>
+          <tr><td>A daily habit, measured in weeks and months</td><td>A test-prep sprint or homework-completion tool</td></tr>
+          <tr><td>Student-facing, student-motivated</td><td>An assignment queue an adult fills</td></tr>
+          <tr><td>A diagnostic engine with a game layer on top</td><td>A game with academic content bolted on</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>The academic engine — Skill Graph, adaptive routing, mastery states — is the product. The game layer is strictly additive: it exists to make the student return tomorrow, and it is architecturally separable from the engine underneath it.</p>
+
+      <h3><span class="hn">1.3</span> The one-sentence positioning</h3>
+      <div class="note ignite">
+        <p style="font-family:var(--f-display);font-size:20px;line-height:1.4;margin:0">The practice app that a kid who is behind will open on their own.</p>
+      </div>
+      <p>Every hard design decision in this product resolves against that sentence.</p>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="sec" id="s2">
+      <div class="sec-head">
+        <span class="sec-num">§2</span>
+        <h2>Who We Are Creating It For</h2>
+      </div>
+
+      <h3><span class="hn">2.1</span> Primary user: students aged 11–14</h3>
+      <p>This is the user we design for. Their experience is the product. Three segments, in priority order:</p>
+
+      <div class="note ignite">
+        <span class="note-k">Segment A — Behind and avoidant · the core case</span>
+        <p>Below grade level in one or more granular competencies. Crucially, the deficit is rarely global — it is three or four missing prerequisites that make everything downstream feel impossible. This student has learned, through years of red marks and visible ranking, that academic practice is where they find out they are stupid. Their dominant behavior is <strong>avoidance</strong>, and avoidance is rational given the emotional cost they have experienced.</p>
+        <p>Nearly every unusual constraint in this product exists for this student: the below-threshold debrief, Flow decaying one tier instead of collapsing, the ban on public accuracy comparison, effort-ranked leaderboards, silent streak grace days, free-to-fail Constellation Trials, and identical rewards at every mastery threshold. <strong>If this student is not served, the product has failed</strong> regardless of how the other two segments perform.</p>
+      </div>
+
+      <div class="note">
+        <span class="note-k">Segment B — On level, disengaged</span>
+        <p>Capable. Bored. Practices only what is assigned, and only to the minimum bar. Not emotionally injured by academics, just unmotivated by them. Served primarily by the game layer: Flow, power-ups, Quest framing, the Codex, and Crews.</p>
+      </div>
+
+      <div class="note">
+        <span class="note-k">Segment C — Ahead and curious</span>
+        <p>Working at or above level and genuinely interested in something — space, animals, music production, competitive games. Underserved by practice tools, which have no ceiling and nothing to explore. Served by the Discovery Codex, Expeditions, Anomalies cards, and Constellation Trials as a real high-difficulty event.</p>
+      </div>
+
+      <h3><span class="hn">2.2</span> Secondary parties: guardians and educators</h3>
+      <p>Not who we design <em>for</em>, but who we must serve for the product to be usable at all. They live in a separate teacher/parent branch and hold exactly three powers over the student experience:</p>
+      <ol class="holds">
+        <li><div>Set the per-student mastery threshold (70–95%) and hint cap.</div></li>
+        <li><div>Grant or withhold consent for every social feature.</div></li>
+        <li><div>Read competency telemetry.</div></li>
+      </ol>
+      <p>They cannot see Studio artifacts unless the student shares them, and no guardian-facing commentary is ever rendered inside the student branch. The student's space is the student's.</p>
+
+      <h3><span class="hn">2.3</span> Explicitly not for</h3>
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:30%">Not for</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Elementary students</td><td>The reading level, the companion's register, and the social layer are all pitched at 11–14</td></tr>
+          <tr><td>High schoolers</td><td>The theme wrapper and Vela's voice will read as childish, and the failure modes are different</td></tr>
+          <tr><td>Cram / test prep</td><td>The loop is a habit built over months. It is bad at producing a score bump in ten days, and we should not claim otherwise</td></tr>
+          <tr><td>Classroom seat-filling</td><td>A 25-minute loop with a game in it is a poor fit for a supervised 45-minute period, and optimizing for it would corrupt the incentive design</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="sec" id="s3">
+      <div class="sec-head">
+        <span class="sec-num">§3</span>
+        <h2>The Problem</h2>
+      </div>
+
+      <h3><span class="hn">3.1</span> Surface problem</h3>
+      <p>Middle schoolers do not practice enough, and much of the practice they do is unproductive — repeating what they can already do, or grinding at something whose prerequisite they never got.</p>
+      <p>This is true but shallow. It describes a symptom that a dozen products already claim to address.</p>
+
+      <h3><span class="hn">3.2</span> The real problem: two failure modes</h3>
+
+      <div class="gr">
+        <div class="no">
+          <h4>Failure mode 1 — Rigorous, motivationally dead</h4>
+          <p style="font-size:14.5px;margin:0 0 10px">Tools in this lineage get the pedagogy right: granular skills, real adaptivity, honest assessment. They are also joyless.</p>
+          <p style="font-size:14.5px;margin:0">Students use them because an adult required it. When the requirement is removed, usage stops. Retention is <strong>assignment-driven, not desire-driven</strong> — which means they cannot reach the avoidant student, because that student's guardian or teacher is exactly the pressure they are avoiding.</p>
+        </div>
+        <div class="no">
+          <h4>Failure mode 2 — Engaging, academically thin</h4>
+          <p style="font-size:14.5px;margin:0 0 10px">Tools in this lineage wrap thin content in a real game. Kids do open them voluntarily, which is a genuine achievement.</p>
+          <p style="font-size:14.5px;margin:0">But the academic content functions as a <strong>toll</strong>: answer three questions, get back to the game. The rational student strategy is to minimize the toll. The incentive structure quietly teaches that learning is a cost to be reduced — the opposite of what the content teaches.</p>
+        </div>
+      </div>
+
+      <h3><span class="hn">3.3</span> The structural flaw both share</h3>
+      <div class="note ignite">
+        <p>In both categories, <strong>the reward is disconnected from the quality of the learning.</strong> A student who genuinely mastered a skill and a student who guessed their way past the bar receive an identical reward. So the optimal strategy is always the minimum.</p>
+        <p>This is not a content problem or a UX problem. It is an <strong>incentive-design problem</strong>, and no amount of better questions or nicer animations fixes it.</p>
+      </div>
+
+      <h3><span class="hn">3.4</span> The third problem, specific to our core user</h3>
+      <p><strong>Failure is emotionally expensive in nearly every product in this space.</strong> Combos reset to zero. Streaks break with a warning modal engineered to produce dread. Scores rank publicly. Progress decays if you leave.</p>
+      <p>These are consumer-game retention mechanics, and they work — on adults, on the already-succeeding, on people whose self-concept is not at stake. Applied to a twelve-year-old who is already behind, they convert every session into another opportunity to be told they are behind.</p>
+      <p>So that student quits. And the product's aggregate engagement numbers never show it, because the students who quit stop appearing in the denominator.</p>
+
+      <h3><span class="hn">3.5</span> Problem statement</h3>
+      <div class="northstar">
+        <span class="note-k">The problem, stated once</span>
+        <p class="m">Middle schoolers who most need practice avoid it, because the tools that are academically serious are joyless, the tools that are enjoyable are academically hollow, and both punish failure in ways that teach an already-struggling student that trying is not worth the risk.</p>
+      </div>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section class="sec" id="s4">
+      <div class="sec-head">
+        <span class="sec-num">§4</span>
+        <h2>Value Proposition</h2>
+      </div>
+
+      <h3><span class="hn">4.1</span> For the student</h3>
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:34%">What they get</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A break you made better by learning well</strong></td><td>Power-ups earned during the quest are spent in the arcade. Effort is <em>felt</em>, not just accounted for. This is the thing no competitor does</td></tr>
+          <tr><td><strong>Being wrong costs you nothing</strong></td><td>XP is kept on a failed round. Flow drops one tier, never to zero. Streaks have silent grace days. Trials are free to fail. Nothing earned is ever removed</td></tr>
+          <tr><td><strong>Nobody sees your accuracy — ever</strong></td><td>No leaderboard, crew metric, or peer surface exposes scores. Social comparison ranks focus minutes, mistakes resolved, cards collected, themes explored. A struggling student can legitimately win those</td></tr>
+          <tr><td><strong>Your interest is the material, not a sticker</strong></td><td>Ratios taught through rocket fuel mixtures or shooting percentages, at identical rigor. Five themes, and the theme never simplifies the question</td></tr>
+          <tr><td><strong>A map that fills in</strong></td><td>Granular competencies as stars that ignite. Progress you can see without anyone grading you</td></tr>
+          <tr><td><strong>Something to collect that rewards curiosity</strong></td><td>Discovery Cards awarded for <em>participating</em> in enrichment, never for being right. The rarest set only fills from unfamiliar themes</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><span class="hn">4.2</span> For guardians and educators</h3>
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:34%">What they get</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Practice without nagging</strong></td><td>The product is designed to be opened voluntarily. That is the whole bet</td></tr>
+          <tr><td><strong>Competency data, not a letter grade</strong></td><td>Which specific prerequisites are missing, and which repeated mistakes have been resolved</td></tr>
+          <tr><td><strong>An invisible accommodation</strong></td><td>The threshold is adjustable 70–95%, set by an adult, never shown to the student as a comparison, with identical rewards at every level. Accommodation without stigma</td></tr>
+          <tr><td><strong>Built for children, not monetized against them</strong></td><td>No ads, purchases, trading, lootboxes, free-text chat, guilt notifications, or dark-pattern retention loops. COPPA/FERPA-aligned</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><span class="hn">4.3</span> Why choose us over the alternative</h3>
+      <div class="note hold">
+        <p>Against the rigorous-but-dead category: <strong>the student will actually open it.</strong></p>
+        <p>Against the fun-but-hollow category: <strong>the learning is real, adaptive, and verified — and the fun is better <em>because</em> of it, not despite it.</strong></p>
+      </div>
+    </section>
+
+    <!-- ============ 5 ============ -->
+    <section class="sec" id="s5">
+      <div class="sec-head">
+        <span class="sec-num">§5</span>
+        <h2>North Star</h2>
+      </div>
+
+      <h3><span class="hn">5.1</span> The qualitative north star</h3>
+      <div class="northstar">
+        <span class="note-k">What success looks like</span>
+        <p class="m">A student who is behind opens QuestBreak on their own — and leaves knowing exactly what they got better at.</p>
+      </div>
+      <p>Both halves are load-bearing. <em>On their own</em> is the motivational claim. <em>Knowing exactly what they got better at</em> is the pedagogical claim. Either one alone describes a product that already exists.</p>
+
+      <h3><span class="hn">5.2</span> The north star metric</h3>
+      <div class="northstar">
+        <span class="note-k">North star metric</span>
+        <p class="m">Mastered skill nodes per active student per week, from self-initiated sessions.</p>
+      </div>
+
+      <h4>Why this metric</h4>
+      <ul>
+        <li><strong>It requires both things to be true at once.</strong> A node only flips to Mastered through graph-verified performance, so learning genuinely happened. <em>Self-initiated</em> means no adult started the session, so the motivational thesis genuinely held. Neither half can be faked by the other.</li>
+        <li><strong>It resists gaming.</strong> Mastery is verified against the Skill Graph, not self-reported. It cannot be farmed by idling, by session length, or by opening the app.</li>
+        <li><strong>It is the value delivered, not a proxy.</strong> Unlike DAU, session length, or streak length — all of which can rise while the product gets worse for our core user.</li>
+        <li><strong>It is movable by every team.</strong> Content quality, adaptive routing, game feel, and onboarding all move it.</li>
+      </ul>
+
+      <h4>What we deliberately did not choose</h4>
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:34%">Rejected metric</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>DAU / session length</td><td>Rises under compulsion. The ethics guardrails explicitly forbid the mechanics that would move it</td></tr>
+          <tr><td>Streak length</td><td>We removed loss aversion on purpose; optimizing this would reintroduce it</td></tr>
+          <tr><td>Questions answered</td><td>Rewards volume over mastery. Encourages rushing, which fights the adaptive engine</td></tr>
+          <tr><td>Accuracy</td><td>Improves when we serve easier students, and can be raised by lowering rigor</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><span class="hn">5.3</span> The counter-metric that keeps it honest</h3>
+      <p>A north star alone is dangerous: mastery-per-week can be pumped by making mastery cheap, or by quietly serving only students who were already succeeding. So the north star is <strong>paired and never reported alone</strong>:</p>
+
+      <div class="northstar counter">
+        <span class="note-k">Counter-metric</span>
+        <p class="m">Return-After-Miss Rate ≥ 65% within 2 days.</p>
+      </div>
+
+      <p>The percentage of students who miss the accuracy gate and come back within two days. This is the moment the product either keeps or loses Segment A. If mastery-per-week is climbing while Return-After-Miss is falling, we are shedding the students we built this for, and the north star is lying.</p>
+
+      <div class="note hold">
+        <p><strong>Report them together, always.</strong></p>
+      </div>
+
+      <h3><span class="hn">5.4</span> Supporting guardrails</h3>
+      <p>Any of these tripping is a design failure regardless of headline numbers:</p>
+      <ul>
+        <li>Median session length stays near 25–50 minutes — a rising tail means compulsion, not value</li>
+        <li>Rushing rate must not rise as Flow rewards are tuned</li>
+        <li>Hint use must not fall while accuracy also falls (that pattern means guessing to protect Flow)</li>
+        <li>Below-threshold students' XP-per-session stays within 60% of above-threshold students'</li>
+      </ul>
+    </section>
+
+    <!-- ============ 6 ============ -->
+    <section class="sec" id="s6">
+      <div class="sec-head">
+        <span class="sec-num">§6</span>
+        <h2>High-Level Approach and Design</h2>
+      </div>
+
+      <h3><span class="hn">6.1</span> Four design pillars</h3>
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:26%">Pillar</th><th>What it commits us to</th></tr></thead>
+        <tbody>
+          <tr><td><strong>01 · Mastery Before Play</strong></td><td>The break unlocks at the accuracy threshold with a hint cap. No currency, level, power-up, or social standing can substitute. This is the product's credibility with adults, and it is non-negotiable</td></tr>
+          <tr><td><strong>02 · Earned Advantage</strong></td><td>Learning performance converts into concrete arcade advantage via power-ups. This is the thesis mechanic and the product's actual differentiation. <strong>If we build only one thing well, it is this</strong></td></tr>
+          <tr><td><strong>03 · Progress Is Never Lost</strong></td><td>XP, cards, and levels are monotonic. Streaks have automatic silent grace days. Flow decays one tier instead of collapsing. Failure costs the break, never the session's worth. This is what makes the product safe for Segment A</td></tr>
+          <tr><td><strong>04 · Interest Is Material</strong></td><td>The theme changes the context of every question and never its rigor. Vocabulary and cognitive demand stay constant across all five themes</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><span class="hn">6.2</span> The core loop</h3>
+<pre class="loop">  ┌─ Quest (20 min) ──────────────────────────────┐
+  │  Adaptive question stream, driven by the      │
+  │  Skill Graph. Flow Meter builds. Power-ups    │
+  │  drop. Focus Boost intercepts repeated        │
+  │  mistakes on the same tag.                    │
+  └───────────────────────┬───────────────────────┘
+                          │
+                  ┌───────▼────────┐
+                  │  Mastery gate  │   threshold + hint cap
+                  └───┬────────┬───┘
+              missed  │        │  cleared
+        ┌─────────────▼──┐  ┌──▼──────────────────────────┐
+        │ Vela debrief   │  │ Hybrid Break (5 min)        │
+        │ • XP kept      │  │ • Arcade 2.5 min            │
+        │ • Sparks kept  │  │   (power-ups spent here)    │
+        │ • Card awarded │  │ • Discover 2.5 min          │
+        │ • Named gains  │  │   (3 slots, student picks 1)│
+        │ • Tomorrow's   │  │ • Discovery Card awarded    │
+        │   plan shown   │  └──────────────┬──────────────┘
+        └────────┬───────┘                 │
+                 └────────────┬────────────┘
+                              ▼
+                     Session Summary
+              (mastery delta, XP, cards, and a
+               visible healthy stopping point)</pre>
+
+      <div class="note ignite">
+        <p>The below-threshold path is built as a <strong>first-class screen, not a fallback</strong>. It is where the product either keeps Segment A or loses them, and it gets the same design investment as the success path.</p>
+      </div>
+
+      <h3><span class="hn">6.3</span> System layering</h3>
+      <p>Four layers, deliberately separable:</p>
+      <div class="tw"><table class="compact">
+        <thead><tr><th style="width:20%">Layer</th><th style="width:38%">Contains</th><th>Constraint</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Academic engine</strong></td><td>Skill Graph, adaptive routing, mastery states, question bank, hint and mistake telemetry</td><td>The product. Everything above is additive</td></tr>
+          <tr><td><strong>Theme layer</strong></td><td>Five interest themes applied to question context, quest names, arcade skins, card sets</td><td>May never alter rigor. A rendering concern only</td></tr>
+          <tr><td><strong>Game layer</strong></td><td>XP, Sparks, Levels, Flow, power-ups, Codex, Quests, Trials, Crews</td><td>Fully tunable. Could be removed without touching the engine</td></tr>
+          <tr><td><strong>Guardrail layer</strong></td><td>Ethics constraints, consent state, accessibility, thresholds</td><td>Overrides all three above. Not negotiable against engagement</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note hold">
+        <span class="note-k">Two architectural commitments</span>
+        <p><strong>The narrative map is a rendering of the Skill Graph, never a replacement for it.</strong> Story never dictates sequencing. If the engine routes to a prerequisite, the story accommodates it.</p>
+        <p><strong>The progression economy is authoritative server-side.</strong> A client-authoritative economy invites tampering that would destroy the mastery gate's credibility with the adults who approve the product.</p>
+      </div>
+
+      <h3><span class="hn">6.4</span> Scope</h3>
+      <div class="phases">
+        <div class="phase">
+          <div class="pw"><b>MVP</b>~16 weeks</div>
+          <div>
+            <h5>The testable core</h5>
+            <ul>
+              <li>Skill Graph and adaptive routing</li>
+              <li>Themed question bank — Math 200, Reading 200</li>
+              <li>Quest framing, Flow Meter, power-up drops and arcade consumption</li>
+              <li>Arcade games (two, then five) and the Discovery Codex</li>
+              <li>Three-slot enrichment selection; below-threshold debrief</li>
+              <li>Learner Levels, Outfitter, sector map with Vela, accessibility pass</li>
+            </ul>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="pw"><b>Post-test</b>Weeks 17–24</div>
+          <div>
+            <h5>Depth, social, and offline</h5>
+            <ul>
+              <li>Constellation Trials</li>
+              <li>Crews, effort leaderboards, moderation, consent flows</li>
+              <li>Expeditions, Duels, offline mode, companion customization</li>
+              <li class="add"><b>Deliberate ·</b> Social and boss systems land after student testing, so they are tuned against observed behavior in the core loop rather than designed blind</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h3><span class="hn">6.5</span> Non-goals for v1</h3>
+      <ul>
+        <li>Instruction delivery — we practice what was taught elsewhere</li>
+        <li>Free-text communication between students, in any form, ever</li>
+        <li>Any monetization surface inside the student experience</li>
+        <li>Curriculum completeness — Math and Reading, grades 6–8, at launch</li>
+        <li>A classroom-management or gradebook product</li>
+      </ul>
+    </section>
+
+    <!-- ============ 7 ============ -->
+    <section class="sec" id="s7">
+      <div class="sec-head">
+        <span class="sec-num">§7</span>
+        <h2>Open Decisions</h2>
+      </div>
+
+      <p>Undetermined by the current plans, and materially affecting the work. Listed in order of how much they block.</p>
+
+      <ol class="oq">
+        <li><div><strong>Distribution and who pays</strong> — school/district purchase, direct-to-family, or free with an institutional tier. Changes onboarding, rostering, consent flow, the scope of the teacher branch, and critically <em>whether Segment A reaches us through a teacher or a parent</em>. <strong>The single largest unknown.</strong></div></li>
+        <li><div><strong>Standards alignment target</strong> — CCSS, state-specific, or an internal competency map. Determines question-bank authoring and how Skill Graph nodes are defined.</div></li>
+        <li><div><strong>Content authoring model</strong> — 400 questions across 5 themes plus 48 illustrated cards is a substantial content cost. Human, templated, or hybrid — and who reviews for accuracy.</div></li>
+        <li><div><strong>Economy tuning source</strong> — Phase 2 telemetry, or a deliberately generous pilot tightened later. Tightening an economy post-launch is historically the more painful direction.</div></li>
+        <li><div><strong>Crew composition</strong> — auto by practice volume, teacher-assigned, or friend-invite. Auto-assignment avoids ability sorting but risks inactive crews.</div></li>
+      </ol>
+
+      <p style="color:var(--ink-3);font-size:14.5px">Remaining game-system open questions live in <a href="/plan.html#s16">Plan v2.0 §16.2</a>.</p>
+    </section>
+
+    <!-- ============ 8 ============ -->
+    <section class="sec" id="s8">
+      <div class="sec-head">
+        <span class="sec-num">§8</span>
+        <h2>How We Will Know It Worked</h2>
+      </div>
+
+      <h4>At 8 weeks of student testing</h4>
+      <div class="tw"><table class="compact">
+        <thead><tr><th>Metric</th><th style="width:26%">Target</th><th style="width:32%">Reads on</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Return-After-Miss Rate</strong></td><td class="numl">&gt; 65%</td><td>The gate on everything else</td></tr>
+          <tr><td>Power-Up Utilization</td><td class="numl">&gt; 80%</td><td>If low, Pillar 2 is not landing and the thesis is wrong</td></tr>
+          <tr><td>Quest Completion Rate</td><td class="numl">&gt; 70%</td><td>Whether quest framing motivates</td></tr>
+          <tr><td>Session Completion Rate</td><td class="numl">&gt; 80%</td><td>Whether the 20-minute budget is right</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>At 30 days post-launch</h4>
+      <div class="tw"><table class="compact">
+        <thead><tr><th>Metric</th><th style="width:26%">Target</th><th style="width:32%">Reads on</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Mastered nodes / student / week</strong></td><td class="numl">Trending up</td><td>The north star — reported beside Return-After-Miss</td></tr>
+          <tr><td>Student Retention (30-day)</td><td class="numl">&gt; 35%</td><td>Long-arc value of the progression layer</td></tr>
+          <tr><td>Repeated Mistake Resolution</td><td class="numl">&gt; 70% in 2 sessions</td><td>Whether the adaptive engine actually remediates</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note ignite">
+        <span class="note-k">Kill criteria</span>
+        <p>If Power-Up Utilization is high but Return-After-Miss stays below 50% after two tuning cycles, the game layer is working and the emotional-safety design is not — which means the product does not serve Segment A, and the premise in §3.4 needs to be <strong>rebuilt rather than tuned</strong>.</p>
+      </div>
+    </section>
+
+    <div class="colophon">
+      <span>QuestBreak — Product Requirements, draft v0.1</span>
+      <span>Full system specification: <a href="/plan.html">Plan v2.0</a></span>
+    </div>
+
+  </main>
+</div>
+
+<script src="/theme.js"></script>
+</body>
+</html>

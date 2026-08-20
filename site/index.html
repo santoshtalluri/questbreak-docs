@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuestBreak</title>
+<meta name="description" content="Product documentation for QuestBreak — an adaptive practice app for middle schoolers where learning well makes the reward better, not just available.">
+<meta property="og:title" content="QuestBreak">
+<meta property="og:description" content="An adaptive practice app for middle schoolers where learning well makes the reward better, not just available.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23A96A12'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
+<link rel="stylesheet" href="/style.css">
+<script>
+  (function(){try{var t=localStorage.getItem('qb-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+</head>
+<body>
+
+<header class="sitebar">
+  <a class="brand" href="/"><i></i>QuestBreak</a>
+  <nav>
+    <a href="/" aria-current="page">Overview</a>
+    <a href="/prd.html">PRD</a>
+    <a href="/plan.html">Plan v2.0</a>
+    <button class="tog" id="tog" type="button" aria-label="Toggle colour theme">Theme</button>
+  </nav>
+</header>
+
+<div class="landing">
+
+  <div class="hero">
+    <div class="eyebrow">Product Documentation</div>
+    <h1>QuestBreak</h1>
+    <p class="deck">An adaptive practice app for middle schoolers. Twenty minutes of standards-aligned work, then a five-minute break you made better by learning well.</p>
+    <div class="mast-meta">
+      <span>Audience <b>Grades 6–8</b></span>
+      <span>Subjects <b>Math &amp; Reading</b></span>
+      <span>Status <b>Pre-build</b></span>
+    </div>
+  </div>
+
+  <div class="thesis">
+    <span class="note-k">The design thesis</span>
+    <p>Learning well should visibly make the fun part better — not merely unlock it.</p>
+  </div>
+
+  <div class="docs">
+    <a class="doc" href="/prd.html">
+      <span class="dk">Document 01 · Draft v0.1</span>
+      <h2>Product Requirements</h2>
+      <p>Why this product should exist, who it is for, and how we will know it worked.</p>
+      <ul>
+        <li>The three-part problem the category has not solved</li>
+        <li>Primary user: behind and avoidant, grades 6–8</li>
+        <li>North star metric, and the counter-metric that keeps it honest</li>
+        <li>Four design pillars, system layering, and scope</li>
+      </ul>
+      <span class="go">Read the PRD →</span>
+    </a>
+
+    <a class="doc" href="/plan.html">
+      <span class="dk">Document 02 · Version 2.0</span>
+      <h2>System Plan</h2>
+      <p>The full specification: every game system, its rules, and the academic guarantees it may not break.</p>
+      <ul>
+        <li>Quest framing, XP and Sparks economy, Learner Levels</li>
+        <li>Flow Meter and the power-up carryover mechanic</li>
+        <li>Discovery Codex, Constellation Trials, opt-in social layer</li>
+        <li>Ethics guardrails, architecture, 24-week phasing</li>
+      </ul>
+      <span class="go">Read the plan →</span>
+    </a>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pn">Pillar 01</div>
+      <h3>Mastery Before Play</h3>
+      <p>The break unlocks at the accuracy threshold with a hint cap. No currency, level, or standing can substitute.</p>
+    </div>
+    <div class="pillar">
+      <div class="pn">Pillar 02</div>
+      <h3>Earned Advantage</h3>
+      <p>Power-ups earned while learning are spent in the arcade. Effort is felt inside the fun, not merely accounted for.</p>
+    </div>
+    <div class="pillar">
+      <div class="pn">Pillar 03</div>
+      <h3>Progress Is Never Lost</h3>
+      <p>XP and cards are monotonic. Flow decays one tier, never to zero. Streaks have silent grace days.</p>
+    </div>
+    <div class="pillar">
+      <div class="pn">Pillar 04</div>
+      <h3>Interest Is Material</h3>
+      <p>Five themes change the context of every question and never its rigor. The wrapper never simplifies.</p>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span>QuestBreak — Student Branch</span>
+    <span>PRD draft v0.1 · Plan v2.0</span>
+    <span>Academic guarantees non-negotiable · Game systems tunable</span>
+  </div>
+
+</div>
+
+<script src="/theme.js"></script>
+</body>
+</html>
